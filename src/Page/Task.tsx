@@ -1,13 +1,13 @@
  
 import { Add_task } from "@/components/layout/Add_task";
 import Task_card from "@/components/layout/Task_card";
-import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import {   useAppSelector } from "@/redux/hooks";
 
  
 
 const Task = () => {
   
-       const dispatch = useAppDispatch();
+       
        const {task}= useAppSelector((state) => state.todos)
 
       

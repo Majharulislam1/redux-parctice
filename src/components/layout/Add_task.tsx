@@ -20,14 +20,23 @@ import { cn } from "@/lib/utils"
 import { format } from "date-fns"
 import { CalendarIcon } from "lucide-react"
 import { Calendar } from "../ui/calendar"
+import { useAppDispatch } from "@/redux/hooks"
+import { add_tasks } from "@/redux/features/task/task"
+import type { task_type } from "@/types/types"
 
 
 export function Add_task() {
 
     const form = useForm();
+     const dispatch = useAppDispatch();
 
-    const onSubmit = (data: object) => {
-        console.log(data);
+    const onSubmit = (data: task_type) => {
+       const newTask: task_type = {
+    ...data,
+    due_date: new Date().toISOString(),  
+  }
+
+  dispatch(add_tasks(newTask))
     }
 
     return (
@@ -99,7 +108,7 @@ export function Add_task() {
 
                             <FormField
                                 control={form.control}
-                                name="due date"
+                                name="due_date"
                                 render={({ field }) => (
                                     <FormItem className="flex flex-col my-4">
                                         <FormLabel>Due Date</FormLabel>
