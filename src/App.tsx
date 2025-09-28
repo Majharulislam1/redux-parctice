@@ -2,6 +2,9 @@
 import './App.css'
 import { decrements, increments } from './redux/features/counter/counter';
 import { useAppDispatch, useAppSelector } from './redux/hooks';
+import { Button } from './components/ui/button';
+import { Outlet } from 'react-router';
+import Navbar from './components/layout/Navbar';
 
 function App() {
    
@@ -21,10 +24,11 @@ function App() {
   return (
     <>
       <div>
-           <button onClick={()=>handleIncrements(1)}>increments</button>
-           <button onClick={()=>handleIncrements(5)}>increments by 5</button>
-            <h1>{count}</h1>
-           <button onClick={handleDecrements}>decrements</button>
+           <Navbar></Navbar>
+           <div className='w-4/5 mx-auto py-20'>
+                 <Outlet></Outlet>
+           </div>
+          
       </div>
     </>
   )
