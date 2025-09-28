@@ -6,5 +6,5 @@ export interface task_type {
     title: string,
     description: string,
     isComplete: boolean,
-    values: 'High' | 'Medium' | 'Low',
+    priority: 'High' | 'Medium' | 'Low',
 }

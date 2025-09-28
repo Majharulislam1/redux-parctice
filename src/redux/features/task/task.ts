@@ -14,14 +14,14 @@ const initialState: taskIn = {
             title: "hello world",
             description: 'create a github repo',
             isComplete: false,
-            values: 'High'
+            priority: 'High'
         },
         {
-            id: '1252532asdfasdf',
+            id: '1252532asdfasdfsdfa',
             title: "hello world",
             description: 'create a github repo',
             isComplete: false,
-            values: 'High'
+            priority: 'High'
         }
     ]
 }
