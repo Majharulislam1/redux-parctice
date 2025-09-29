@@ -1,18 +1,18 @@
- 
+import type { task_type } from "@/types/types";
 
  
 
  
 
-const Task_card = ({task}) => {
+ 
+
+const Task_card = ({task}:{task:task_type}) => {
   
          
-        
 
     return (
         <div className="p-4 relative">
-             <div className="w-3 h-3 bg-red-600 rounded-full absolute top-[20px] left-[20px]">
-                   </div>
+             <div className={` ${task.priority === "High" && 'bg-red-600'} ${task.priority === 'Low' && 'bg-yellow-600'} ${task.priority === 'Medium' && 'bg-green-600'} w-3 h-3  rounded-full absolute top-[20px] left-[20px]`}></div>
              <div className='border p-4 flex justify-between mb-4 rounded-sm'>
                    <div> 
                         <h1> {task.title}</h1>
