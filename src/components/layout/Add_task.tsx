@@ -12,7 +12,7 @@ import {
 import { Input } from "@/components/ui/input"
 
 import { Form, FormControl,FormField, FormItem, FormLabel, } from "../ui/form"
-import { useForm } from "react-hook-form"
+import { useForm,   type SubmitHandler } from "react-hook-form"
 import { Select } from "@radix-ui/react-select"
 import { SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select"
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover"
@@ -27,10 +27,10 @@ import type { task_type } from "@/types/types"
 
 export function Add_task() {
 
-    const form = useForm();
+    const form = useForm<task_type>();
      const dispatch = useAppDispatch();
 
-    const onSubmit = (data: task_type) => {
+    const onSubmit:SubmitHandler<task_type> = (data: task_type) => {
        const newTask: task_type = {
     ...data,
     due_date: new Date().toISOString(),  
@@ -134,7 +134,7 @@ export function Add_task() {
                                             <PopoverContent className="w-auto p-0" align="start">
                                                 <Calendar
                                                     mode="single"
-                                                    selected={field.value}
+                                                    selected={field.value ? new Date(field.value) : undefined}
                                                     onSelect={field.onChange}
                                                     // disabled={(date) =>
                                                     //     date > new Date() || date < new Date("1900-01-01")
