@@ -9,3 +9,8 @@ export interface task_type {
     due_date:string | Date,
     priority: 'High' | 'Medium' | 'Low',
 }
+
+export interface user_type {
+    id: string,
+    name: string
+}

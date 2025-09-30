@@ -44,9 +44,7 @@ const taskSlice = createSlice({
             state.task = state.task.filter((task) => task.id !== action.payload);
         },
         update_filter: (state, action) => {
-
             state.filter = action.payload;
-
         }
     }
 })

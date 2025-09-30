@@ -1,19 +1,33 @@
+import { Add_user } from "@/components/layout/Add_uset";
+import User_card from "@/components/layout/User_card";
 import { select_user } from "@/redux/features/user/user_slice";
 import { useAppSelector } from "@/redux/hooks";
 
- 
+
 
 const User = () => {
 
-     const user = useAppSelector(select_user);
+    const user = useAppSelector(select_user);
 
-     console.log(user);
+     
 
 
     return (
-        <div>
-            <h1>this is user page</h1>
+        <div >
             
+            <div className="mb-4">
+                 <Add_user></Add_user>
+            </div>
+            <div className="gap-4 flex items-center">
+
+
+                {
+                    user.map((user) => <User_card users={user} key={user.id}></User_card>)
+                }
+            </div>
+
+
+
         </div>
     );
 };
