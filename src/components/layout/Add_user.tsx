@@ -20,12 +20,14 @@ import { useAppDispatch } from "@/redux/hooks"
 import type { user_type } from "@/types/types"
  
 import { add_user } from "@/redux/features/user/user_slice"
+import { useState } from "react"
 
 
 export function Add_user() {
 
     const form = useForm<user_type>();
      const dispatch = useAppDispatch();
+     const [isOpen ,setOpen] = useState(false);
 
 //     const onSubmit:SubmitHandler<task_type> = (data: task_type) => {
 //        const newTask: task_type = {
@@ -40,11 +42,12 @@ export function Add_user() {
              
            
              dispatch(add_user(data));
-
+           setOpen(false);
+           form.reset();
     }
 
     return (
-        <Dialog>
+        <Dialog open={isOpen} onOpenChange={setOpen}>
             <form>
                 <DialogTrigger asChild>
                     <Button variant="outline">Add User</Button>
@@ -67,7 +70,7 @@ export function Add_user() {
                                     <FormItem className="my-2">
                                         <FormLabel>Title</FormLabel>
                                         <FormControl>
-                                            <Input placeholder="Title" {...field} value={field.value || ""} />
+                                            <Input placeholder="Title" {...field} value={field.value || ""} required/>
                                         </FormControl>
                                     </FormItem>
                                 )}

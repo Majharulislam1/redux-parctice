@@ -1,8 +1,9 @@
 import type { task_type } from "@/types/types";
 import { Checkbox } from "../ui/checkbox";
-import { useAppDispatch } from "@/redux/hooks";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { delete_task, toggle_line_throw } from "@/redux/features/task/task";
 import { cn } from "@/lib/utils";
+import { select_user } from "@/redux/features/user/user_slice";
 
  
 
@@ -13,6 +14,10 @@ import { cn } from "@/lib/utils";
 const Task_card = ({task}:{task:task_type}) => {
   
     const dispatch = useAppDispatch();
+    const User = useAppSelector(select_user);
+
+    
+    const user = User.find(us => us.id === task.assignTo);
          
 
     return (
@@ -22,6 +27,7 @@ const Task_card = ({task}:{task:task_type}) => {
                    <div> 
                         <h1 className={cn(task.isComplete && "line-through")}> {task.title}</h1>
                         <p>{task.description}</p>
+                        <p className="text-gray-700">Assign To : {user?.name ? user.name : "Not Assign to user"} </p>
                    </div>
                    <div className="flex justify-between items-center gap-4">
                            <div onClick={()=>dispatch(delete_task(task.id))}>
@@ -31,11 +37,7 @@ const Task_card = ({task}:{task:task_type}) => {
                            <div>
                               <Checkbox  onClick={()=>dispatch(toggle_line_throw(task.id))}/>
                            </div>
-
-
                    </div>
-
-                  
              </div>
         </div>
     );

@@ -11,8 +11,8 @@ import {
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 
-import { Form, FormControl,FormField, FormItem, FormLabel, } from "../ui/form"
-import { useForm,   type SubmitHandler } from "react-hook-form"
+import { Form, FormControl, FormField, FormItem, FormLabel, } from "../ui/form"
+import { useForm, type SubmitHandler } from "react-hook-form"
 import { Select } from "@radix-ui/react-select"
 import { SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select"
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover"
@@ -20,27 +20,37 @@ import { cn } from "@/lib/utils"
 import { format } from "date-fns"
 import { CalendarIcon } from "lucide-react"
 import { Calendar } from "../ui/calendar"
-import { useAppDispatch } from "@/redux/hooks"
+import { useAppDispatch, useAppSelector } from "@/redux/hooks"
 import { add_tasks } from "@/redux/features/task/task"
 import type { task_type } from "@/types/types"
+import { select_user } from "@/redux/features/user/user_slice"
+import { useState } from "react"
 
 
 export function Add_task() {
 
+    const [isOpen, setOpen] = useState(false);
+
     const form = useForm<task_type>();
-     const dispatch = useAppDispatch();
+    const dispatch = useAppDispatch();
 
-    const onSubmit:SubmitHandler<task_type> = (data: task_type) => {
-       const newTask: task_type = {
-    ...data,
-    due_date: new Date().toISOString(),  
-  }
+    const User = useAppSelector(select_user);
 
-  dispatch(add_tasks(newTask))
+    const onSubmit: SubmitHandler<task_type> = (data: task_type) => {
+        const newTask: task_type = {
+            ...data,
+            due_date: new Date().toISOString(),
+
+
+        }
+
+        dispatch(add_tasks(newTask))
+        setOpen(false);
+        form.reset();
     }
 
     return (
-        <Dialog>
+        <Dialog open={isOpen} onOpenChange={setOpen}>
             <form>
                 <DialogTrigger asChild>
                     <Button variant="outline">Add Task</Button>
@@ -105,6 +115,30 @@ export function Add_task() {
                                 )}
                             />
 
+                            <FormField
+                                control={form.control}
+                                name="assignTo"
+                                render={({ field }) => (
+                                    <FormItem className="w-full mt-4">
+                                        <FormLabel>Assign To:</FormLabel>
+                                        <Select onValueChange={field.onChange}  >
+                                            <FormControl>
+                                                <SelectTrigger className="w-full">
+                                                    <SelectValue placeholder="Assign To" />
+                                                </SelectTrigger>
+                                            </FormControl>
+                                            <SelectContent className="w-full">
+
+                                                {
+                                                    User.map(user => <SelectItem value={user.id} key={user.id}>{user.name}</SelectItem>)
+                                                }
+
+                                            </SelectContent>
+                                        </Select>
+                                    </FormItem>
+                                )}
+                            />
+
 
                             <FormField
                                 control={form.control}
@@ -143,7 +177,7 @@ export function Add_task() {
                                                 />
                                             </PopoverContent>
                                         </Popover>
-                                       
+
                                     </FormItem>
                                 )}
                             />
