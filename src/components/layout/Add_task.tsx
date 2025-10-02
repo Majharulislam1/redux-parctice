@@ -20,31 +20,47 @@ import { cn } from "@/lib/utils"
 import { format } from "date-fns"
 import { CalendarIcon } from "lucide-react"
 import { Calendar } from "../ui/calendar"
-import { useAppDispatch, useAppSelector } from "@/redux/hooks"
-import { add_tasks } from "@/redux/features/task/task"
+// import { useAppDispatch, useAppSelector } from "@/redux/hooks"
+// import { add_tasks } from "@/redux/features/task/task"
 import type { task_type } from "@/types/types"
-import { select_user } from "@/redux/features/user/user_slice"
+ 
 import { useState } from "react"
+import { useCreateTaskMutation } from "@/redux/api/baseApi"
 
 
 export function Add_task() {
 
     const [isOpen, setOpen] = useState(false);
 
+
+
     const form = useForm<task_type>();
-    const dispatch = useAppDispatch();
+    // const dispatch = useAppDispatch();
 
-    const User = useAppSelector(select_user);
+    // const User = useAppSelector(select_user);
 
-    const onSubmit: SubmitHandler<task_type> = (data: task_type) => {
+    const [createTask , {data,isLoading}] = useCreateTaskMutation();
+
+   
+    if(isLoading){
+         return <p>Loading</p>
+    }
+ console.log(data);
+    const onSubmit: SubmitHandler<task_type> = async (data: task_type) => {
         const newTask: task_type = {
             ...data,
-            due_date: new Date().toISOString(),
-
-
+            isComplete:false,
+            // member: "John Doe",
+            dueDate: new Date().toISOString(),
+             
         }
 
-        dispatch(add_tasks(newTask))
+        console.log(newTask);
+
+        const task = await createTask(newTask);
+        console.log(task);
+
+        // dispatch(add_tasks(newTask))
         setOpen(false);
         form.reset();
     }
@@ -115,7 +131,7 @@ export function Add_task() {
                                 )}
                             />
 
-                            <FormField
+                            {/* <FormField
                                 control={form.control}
                                 name="assignTo"
                                 render={({ field }) => (
@@ -129,20 +145,20 @@ export function Add_task() {
                                             </FormControl>
                                             <SelectContent className="w-full">
 
-                                                {
+                                                {/* {
                                                     User.map(user => <SelectItem value={user.id} key={user.id}>{user.name}</SelectItem>)
-                                                }
+                                                } */}
 
-                                            </SelectContent>
+                                            {/* </SelectContent>
                                         </Select>
-                                    </FormItem>
-                                )}
-                            />
+                            //         </FormItem> */}
+                            
+                            
 
 
                             <FormField
                                 control={form.control}
-                                name="due_date"
+                                name="dueDate"
                                 render={({ field }) => (
                                     <FormItem className="flex flex-col my-4">
                                         <FormLabel>Due Date</FormLabel>

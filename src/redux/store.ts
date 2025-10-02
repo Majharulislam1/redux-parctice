@@ -1,18 +1,27 @@
 import { configureStore } from "@reduxjs/toolkit";
-import counterSlice from "./features/counter/counter";
-import taskSlice from "./features/task/task";
-import createUser from "./features/user/user_slice";
+import { baseApi } from "./api/baseApi";
+ 
 
+
+
+// export const store = configureStore({
+//      reducer:{
+//        counter:counterSlice,
+//        todos:taskSlice,
+//        user:createUser
+//      }
+// })
 
 
 export const store = configureStore({
      reducer:{
-       counter:counterSlice,
-       todos:taskSlice,
-       user:createUser
-     }
+         [baseApi.reducerPath]: baseApi.reducer,
+     },
+     middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(baseApi.middleware),
 })
 
+ 
 
 
 export type RootState = ReturnType<typeof store.getState>;

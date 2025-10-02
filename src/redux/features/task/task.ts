@@ -2,6 +2,7 @@
 import type { RootState } from "@/redux/store";
 import type { task_type } from "@/types/types";
 import { createSlice, nanoid, type PayloadAction } from "@reduxjs/toolkit";
+import { delete_user } from "../user/user_slice";
 
 
 interface taskIn {
@@ -15,10 +16,10 @@ const initialState: taskIn = {
 }
 
 
-type DraftTask = Pick<task_type, "title" | "description" | "due_date" | "priority">;
+type DraftTask = Pick<task_type, "title" | "description" | "due_date" | "priority" | "assignTo">;
 
 const create_task = (due_task: DraftTask): task_type => {
-    return { id: nanoid(), isComplete: false, ...due_task };
+    return { id: nanoid(), isComplete: false, ...due_task , assignTo: due_task.assignTo ? due_task.assignTo : null};
 }
 
 
@@ -46,23 +47,30 @@ const taskSlice = createSlice({
         update_filter: (state, action) => {
             state.filter = action.payload;
         }
+    },
+    
+    extraReducers:(builder)=>{
+          builder.addCase(delete_user,(state,action)=>{
+                state.task.forEach((task)=> task.assignTo === action.payload ? (task.assignTo=null) : task )
+          })
     }
+
 })
 
 
-export const select_task = (state: RootState) => {
+// export const select_task = (state: RootState) => {
 
-    if (state.todos.filter === 'High') {
-        return state.todos.task.filter((task) => task.priority === 'High');
-    } else if (state.todos.filter === 'Medium') {
-        return state.todos.task.filter((task) => task.priority === 'Medium');
-    } else if (state.todos.filter === 'Low') {
-        return state.todos.task.filter((task) => task.priority === 'Low');
-    }
-    else {
-        return state.todos.task;
-    }
-}
+//     if (state.todos.filter === 'High') {
+//         return state.todos.task.filter((task) => task.priority === 'High');
+//     } else if (state.todos.filter === 'Medium') {
+//         return state.todos.task.filter((task) => task.priority === 'Medium');
+//     } else if (state.todos.filter === 'Low') {
+//         return state.todos.task.filter((task) => task.priority === 'Low');
+//     }
+//     else {
+//         return state.todos.task;
+//     }
+// }
 
 export const { add_tasks, toggle_line_throw, delete_task, update_filter } = taskSlice.actions;
 

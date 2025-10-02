@@ -9,7 +9,7 @@ import Navbar from './components/layout/Navbar';
 function App() {
    
   const dispatch = useAppDispatch();
-  const {count}= useAppSelector((state) => state.counter)
+  // const {count}= useAppSelector((state) => state.counter)
   
   
 

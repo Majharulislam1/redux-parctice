@@ -6,9 +6,10 @@ export interface task_type {
     title: string,
     description: string,
     isComplete: boolean,
-    due_date:string | Date,
+    dueDate:string | Date,
     priority: 'High' | 'Medium' | 'Low',
-    assignTo:string | null
+    // assignTo:string | null
+    member: string
 }
 
 export interface user_type {
