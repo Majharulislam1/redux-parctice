@@ -7,7 +7,7 @@ export interface task_type {
     description: string,
     isComplete: boolean,
     dueDate:string | Date,
-    priority: 'High' | 'Medium' | 'Low',
+    priority: 'high' | 'medium' | 'low',
     // assignTo:string | null
     member: string
 }
